@@ -346,7 +346,8 @@ class Frame(object):
         attributes are initialised.
 
         """
-        return Frame(lib.freenect2_frame_create(width, height, bytes_per_pixel))
+        frame_ref = lib.freenect2_frame_create(width, height, bytes_per_pixel)
+        return Frame(ffi.gc(frame_ref, lib.freenect2_frame_dispose))
 
     def to_image(self):
         """Convert the Frame to a PIL :py:class:`Image` instance."""
